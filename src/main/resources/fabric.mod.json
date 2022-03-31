@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "voidcrafting",
+  "version": "${version}",
+  "name": "Void Crafting",
+  "description": "Adds a void crafting recipe type",
+  "authors": [
+    "acikek"
+  ],
+  "contact": {
+    "repo": "https://github.com/acikek/voidcrafting"
+  },
+  "license": "MIT",
+  "icon": "assets/voidcrafting/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.acikek.voidcrafting.VoidCrafting"
+    ]
+  },
+  "mixins": [
+    "voidcrafting.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "1.18.2"
+  }
+}

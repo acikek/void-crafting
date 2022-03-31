@@ -1,0 +1,90 @@
+package com.acikek.voidcrafting.recipe;
+
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.*;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.World;
+
+import java.util.Random;
+
+public record VoidRecipe(Ingredient input, ItemStack result, RegistryKey<World> worldKey,
+                         float x, float z, float radius, Identifier id) implements Recipe<SimpleInventory> {
+
+    public static final Identifier ID = new Identifier("voidcrafting", "void_crafting");
+
+    public static Vec2f getPosition(float radius, Random random) {
+        float angle = random.nextFloat(MathHelper.TAU);
+        float cos = MathHelper.cos(angle);
+        float sin = MathHelper.sin(angle);
+        return new Vec2f(radius * cos, radius * -sin);
+    }
+
+    public World getWorld(World world) {
+        if (world.getServer() == null) {
+            return null;
+        }
+        return world.getServer().getWorld(worldKey);
+    }
+
+    public void dropItems(ItemEntity itemEntity, World world) {
+        for (int i = 0; i < itemEntity.getStack().getCount(); i++) {
+            Vec2f pos = getPosition(radius, world.random);
+            float posX = pos.x + x;
+            float posZ = pos.y + z;
+            int y = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int) posX, (int) posZ);
+            ItemEntity drop = new ItemEntity(world, posX, y, posZ, result.copy());
+            world.spawnEntity(drop);
+        }
+    }
+
+    @Override
+    public boolean matches(SimpleInventory inventory, World world) {
+        return inventory.size() >= 1 && input.test(inventory.getStack(0));
+    }
+
+    @Override
+    public ItemStack craft(SimpleInventory inventory) {
+        return null;
+    }
+
+    @Override
+    public boolean fits(int width, int height) {
+        return false;
+    }
+
+    @Override
+    public ItemStack getOutput() {
+        return result;
+    }
+
+    @Override
+    public Identifier getId() {
+        return id;
+    }
+
+    @Override
+    public RecipeType<?> getType() {
+        return Type.INSTANCE;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return VoidRecipeSerializer.INSTANCE;
+    }
+
+    public static class Type implements RecipeType<VoidRecipe> {
+        public static final Type INSTANCE = new Type();
+    }
+
+    public static void register() {
+        Registry.register(Registry.RECIPE_TYPE, ID, Type.INSTANCE);
+        Registry.register(Registry.RECIPE_SERIALIZER, ID, VoidRecipeSerializer.INSTANCE);
+    }
+}
