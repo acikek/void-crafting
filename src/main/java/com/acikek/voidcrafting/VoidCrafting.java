@@ -11,6 +11,7 @@ public class VoidCrafting implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        LOGGER.info("Initializing Void Crafting");
         VoidRecipe.register();
     }
 }
