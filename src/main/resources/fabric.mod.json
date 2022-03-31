@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "voidcrafting",
-  "version": "${version}",
+  "version": "1.0.0",
   "name": "Void Crafting",
   "description": "Adds a void crafting recipe type",
   "authors": [
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "icon": "assets/voidcrafting/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "com.acikek.voidcrafting.VoidCrafting"
