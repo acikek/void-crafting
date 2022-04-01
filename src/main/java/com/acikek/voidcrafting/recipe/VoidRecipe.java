@@ -1,9 +1,16 @@
 package com.acikek.voidcrafting.recipe;
 
+import com.acikek.voidcrafting.VoidCrafting;
+import com.acikek.voidcrafting.advancement.ModCriteria;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
@@ -17,7 +24,7 @@ import java.util.Random;
 public record VoidRecipe(Ingredient input, ItemStack result, RegistryKey<World> worldKey,
                          float x, float z, float radius, Identifier id) implements Recipe<SimpleInventory> {
 
-    public static final Identifier ID = new Identifier("voidcrafting", "void_crafting");
+    public static final Identifier ID = VoidCrafting.id("void_crafting");
 
     public static Vec2f getPosition(float radius, Random random) {
         float angle = random.nextFloat(MathHelper.TAU);
@@ -41,6 +48,15 @@ public record VoidRecipe(Ingredient input, ItemStack result, RegistryKey<World> 
             int y = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int) posX, (int) posZ);
             ItemEntity drop = new ItemEntity(world, posX, y, posZ, result.copy());
             world.spawnEntity(drop);
+        }
+    }
+
+    public void triggerCriterion(ItemEntity itemEntity, World world) {
+        if (itemEntity.getThrower() != null) {
+            PlayerEntity player = world.getPlayerByUuid(itemEntity.getThrower());
+            if (player != null) {
+                ModCriteria.VOID_CRAFT_SUCCESS.trigger((ServerPlayerEntity) player, id, itemEntity.getStack().getCount());
+            }
         }
     }
 

@@ -30,6 +30,7 @@ public abstract class EntityMixin {
                         World target = match.getWorld(world);
                         if (target != null) {
                             match.dropItems(itemEntity, target);
+                            match.triggerCriterion(itemEntity, target);
                         }
                         else {
                             VoidCrafting.LOGGER.error("World '" + match.worldKey().getValue() +  "' not found (recipe: " + match.getId() + ")");
