@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "voidcrafting",
-  "version": "1.0.0",
+  "version": "${version}",
   "name": "Void Crafting",
   "description": "Adds a void crafting recipe type",
   "authors": [
