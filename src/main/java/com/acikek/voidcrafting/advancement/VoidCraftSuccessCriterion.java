@@ -31,30 +31,30 @@ public class VoidCraftSuccessCriterion extends AbstractCriterion<VoidCraftSucces
         return ID;
     }
 
-    public void trigger(ServerPlayerEntity player, Identifier recipe, int size) {
-        trigger(player, conditions -> conditions.matches(recipe, size));
+    public void trigger(ServerPlayerEntity player, Identifier recipe, int count) {
+        trigger(player, conditions -> conditions.matches(recipe, count));
     }
 
     public static class Conditions extends AbstractCriterionConditions {
 
         public Identifier recipe;
-        public int size;
+        public int count;
 
-        public Conditions(EntityPredicate.Extended playerPredicate, Identifier recipe, int size) {
+        public Conditions(EntityPredicate.Extended playerPredicate, Identifier recipe, int count) {
             super(ID, playerPredicate);
             this.recipe = recipe;
-            this.size = size;
+            this.count = count;
         }
 
-        public boolean matches(Identifier recipe, int size) {
-            return this.recipe.equals(recipe) && size >= this.size;
+        public boolean matches(Identifier recipe, int count) {
+            return this.recipe.equals(recipe) && count >= this.count;
         }
 
         @Override
         public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
             JsonObject obj = super.toJson(predicateSerializer);
             obj.add("recipe", new JsonPrimitive(recipe.toString()));
-            obj.add("size", new JsonPrimitive(size));
+            obj.add("count", new JsonPrimitive(count));
             return obj;
         }
     }
