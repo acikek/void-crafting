@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "icon": "assets/voidcrafting/icon.png",
-  "environment": "client",
+  "environment": "server",
   "entrypoints": {
     "main": [
       "com.acikek.voidcrafting.VoidCrafting"
