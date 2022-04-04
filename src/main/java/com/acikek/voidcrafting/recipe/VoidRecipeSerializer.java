@@ -25,6 +25,7 @@ public class VoidRecipeSerializer implements RecipeSerializer<VoidRecipe> {
         float x;
         float z;
         float radius;
+        boolean absolute;
     }
 
     public static final VoidRecipeSerializer INSTANCE = new VoidRecipeSerializer();
@@ -44,7 +45,7 @@ public class VoidRecipeSerializer implements RecipeSerializer<VoidRecipe> {
         Ingredient input = Ingredient.fromJson(recipeJson.input);
         ItemStack result = ShapedRecipe.outputFromJson(recipeJson.result);
         float radius = recipeJson.radius == 0.0f ? DEFAULT_RADIUS : recipeJson.radius;
-        return new VoidRecipe(input, result, worldKey, recipeJson.x, recipeJson.z, radius, id);
+        return new VoidRecipe(input, result, worldKey, recipeJson.x, recipeJson.z, radius, recipeJson.absolute, id);
     }
 
     @Override
@@ -55,7 +56,8 @@ public class VoidRecipeSerializer implements RecipeSerializer<VoidRecipe> {
         float x = buf.readFloat();
         float z = buf.readFloat();
         float radius = buf.readFloat();
-        return new VoidRecipe(input, result, worldKey, x, z, radius, id);
+        boolean absolute = buf.readBoolean();
+        return new VoidRecipe(input, result, worldKey, x, z, radius, absolute, id);
     }
 
     @Override
@@ -66,5 +68,6 @@ public class VoidRecipeSerializer implements RecipeSerializer<VoidRecipe> {
         buf.writeFloat(recipe.x());
         buf.writeFloat(recipe.z());
         buf.writeFloat(recipe.radius());
+        buf.writeBoolean(recipe.absolute());
     }
 }
