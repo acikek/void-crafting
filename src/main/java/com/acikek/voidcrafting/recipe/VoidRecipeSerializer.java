@@ -20,12 +20,13 @@ public class VoidRecipeSerializer implements RecipeSerializer<VoidRecipe> {
 
     public static class JsonFormat {
         JsonObject input;
-        JsonObject result;
-        String world;
         float x;
         float z;
         float radius;
+        String world;
         boolean absolute;
+        boolean replicate;
+        JsonObject result;
     }
 
     public static final VoidRecipeSerializer INSTANCE = new VoidRecipeSerializer();
@@ -36,38 +37,42 @@ public class VoidRecipeSerializer implements RecipeSerializer<VoidRecipe> {
         if (recipeJson.input == null) {
             throw new JsonSyntaxException("Missing field 'input'");
         }
-        if (recipeJson.result == null) {
+        if (recipeJson.result == null && !recipeJson.replicate) {
             throw new JsonSyntaxException("Missing field 'result'");
         }
+        Ingredient input = Ingredient.fromJson(recipeJson.input);
         RegistryKey<World> worldKey = recipeJson.world != null
                 ? RegistryKey.of(Registry.WORLD_KEY, Identifier.tryParse(recipeJson.world))
                 : DEFAULT_WORLD_KEY;
-        Ingredient input = Ingredient.fromJson(recipeJson.input);
-        ItemStack result = ShapedRecipe.outputFromJson(recipeJson.result);
+        ItemStack result = !recipeJson.replicate ? ShapedRecipe.outputFromJson(recipeJson.result) : null;
         float radius = recipeJson.radius == 0.0f ? DEFAULT_RADIUS : recipeJson.radius;
-        return new VoidRecipe(input, result, worldKey, recipeJson.x, recipeJson.z, radius, recipeJson.absolute, id);
+        return new VoidRecipe(input, recipeJson.x, recipeJson.z, radius, worldKey, recipeJson.absolute, recipeJson.replicate, result, id);
     }
 
     @Override
     public VoidRecipe read(Identifier id, PacketByteBuf buf) {
         Ingredient input = Ingredient.fromPacket(buf);
-        ItemStack result = buf.readItemStack();
-        RegistryKey<World> worldKey = RegistryKey.of(Registry.WORLD_KEY, Identifier.tryParse(buf.readString()));
         float x = buf.readFloat();
         float z = buf.readFloat();
         float radius = buf.readFloat();
+        RegistryKey<World> worldKey = RegistryKey.of(Registry.WORLD_KEY, Identifier.tryParse(buf.readString()));
         boolean absolute = buf.readBoolean();
-        return new VoidRecipe(input, result, worldKey, x, z, radius, absolute, id);
+        boolean replicate = buf.readBoolean();
+        ItemStack result = !replicate ? buf.readItemStack() : null;
+        return new VoidRecipe(input, x, z, radius, worldKey, absolute, replicate, result, id);
     }
 
     @Override
     public void write(PacketByteBuf buf, VoidRecipe recipe) {
         recipe.input().write(buf);
-        buf.writeItemStack(recipe.result());
-        buf.writeString(recipe.worldKey().getValue().toString());
         buf.writeFloat(recipe.x());
         buf.writeFloat(recipe.z());
         buf.writeFloat(recipe.radius());
+        buf.writeString(recipe.worldKey().getValue().toString());
         buf.writeBoolean(recipe.absolute());
+        buf.writeBoolean(recipe.replicate());
+        if (recipe.result() != null) {
+            buf.writeItemStack(recipe.result());
+        }
     }
 }

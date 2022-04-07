@@ -21,8 +21,9 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public record VoidRecipe(Ingredient input, ItemStack result, RegistryKey<World> worldKey,
-                         float x, float z, float radius, boolean absolute, Identifier id) implements Recipe<SimpleInventory> {
+public record VoidRecipe(Ingredient input, float x, float z, float radius,
+                         RegistryKey<World> worldKey, boolean absolute,
+                         boolean replicate, ItemStack result, Identifier id) implements Recipe<SimpleInventory> {
 
     public static final Identifier ID = VoidCrafting.id("void_crafting");
 
@@ -33,11 +34,23 @@ public record VoidRecipe(Ingredient input, ItemStack result, RegistryKey<World> 
         return new Vec2f(radius * cos, radius * -sin);
     }
 
+    public boolean isValid() {
+        return replicate || !result.isEmpty();
+    }
+
     public World getWorld(World world) {
         if (world.getServer() == null) {
             return null;
         }
         return world.getServer().getWorld(worldKey);
+    }
+
+    public ItemStack getStack(ItemEntity itemEntity) {
+        ItemStack stack = (replicate ? itemEntity.getStack() : result).copy();
+        if (replicate) {
+            stack.setCount(1);
+        }
+        return stack;
     }
 
     public void dropItems(ItemEntity itemEntity, World world) {
@@ -46,7 +59,7 @@ public record VoidRecipe(Ingredient input, ItemStack result, RegistryKey<World> 
             float posX = pos.x + x + (absolute ? (float) itemEntity.getX() : 0.0f);
             float posZ = pos.y + z + (absolute ? (float) itemEntity.getZ() : 0.0f);
             int y = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int) posX, (int) posZ);
-            ItemEntity drop = new ItemEntity(world, posX, y, posZ, result.copy());
+            ItemEntity drop = new ItemEntity(world, posX, y, posZ, getStack(itemEntity));
             world.spawnEntity(drop);
         }
     }

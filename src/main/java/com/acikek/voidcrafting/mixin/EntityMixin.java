@@ -26,7 +26,7 @@ public abstract class EntityMixin {
             if (entity instanceof ItemEntity itemEntity) {
                 SimpleInventory inventory = new SimpleInventory(itemEntity.getStack());
                 world.getRecipeManager().getFirstMatch(VoidRecipe.Type.INSTANCE, inventory, world).ifPresent(match -> {
-                    if (!match.result().isEmpty()) {
+                    if (match.isValid()) {
                         World target = match.getWorld(world);
                         if (target != null) {
                             match.dropItems(itemEntity, target);
