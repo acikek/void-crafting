@@ -1,0 +1,11 @@
+{
+  "type": "voidcrafting:void_crafting",
+  "input": {
+    "item": "minecraft:diamond_sword"
+  },
+  "radius": 2,
+  "absolute": true,
+  "result": {
+    "item": "minecraft:diamond_axe"
+  }
+}

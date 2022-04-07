@@ -1,0 +1,10 @@
+{
+  "type": "voidcrafting:void_crafting",
+  "input": {
+    "item": "minecraft:iron_ingot"
+  },
+  "world": "minecraft:overworld",
+  "result": {
+    "item": "minecraft:iron_block"
+  }
+}

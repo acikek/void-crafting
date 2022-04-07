@@ -1,0 +1,10 @@
+{
+  "type": "voidcrafting:void_crafting",
+  "input": {
+    "item": "minecraft:gold_ingot"
+  },
+  "result": {
+    "item": "minecraft:gold_block",
+    "count": 3
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "voidcrafting:void_crafting",
+  "input": {
+    "item": "minecraft:stick"
+  },
+  "x": 10,
+  "z": 4,
+  "radius": 8.5,
+  "result": {
+    "item": "minecraft:oak_planks"
+  }
+}

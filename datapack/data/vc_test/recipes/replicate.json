@@ -1,0 +1,7 @@
+{
+  "type": "voidcrafting:void_crafting",
+  "input": {
+    "tag": "minecraft:dirt"
+  },
+  "replicate": true
+}
