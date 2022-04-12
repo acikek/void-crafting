@@ -2,6 +2,7 @@ package com.acikek.voidcrafting.recipe;
 
 import com.acikek.voidcrafting.VoidCrafting;
 import com.acikek.voidcrafting.advancement.ModCriteria;
+import net.minecraft.block.AirBlock;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
@@ -12,6 +13,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.registry.Registry;
@@ -53,14 +55,20 @@ public record VoidRecipe(Ingredient input, float x, float z, float radius,
         return stack;
     }
 
+    public boolean isVoid(int y, World world, float posX, float posZ) {
+        return y == 0 && world.getBlockState(new BlockPos(posX, y, posZ)).getBlock() instanceof AirBlock;
+    }
+
     public void dropItems(ItemEntity itemEntity, World world) {
         for (int i = 0; i < itemEntity.getStack().getCount(); i++) {
             Vec2f pos = getPosition(radius, world.random);
             float posX = pos.x + x + (absolute ? (float) itemEntity.getX() : 0.0f);
             float posZ = pos.y + z + (absolute ? (float) itemEntity.getZ() : 0.0f);
             int y = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int) posX, (int) posZ);
-            ItemEntity drop = new ItemEntity(world, posX, y, posZ, getStack(itemEntity));
-            world.spawnEntity(drop);
+            if (!isVoid(y, world, posX, posZ)) {
+                ItemEntity drop = new ItemEntity(world, posX, y, posZ, getStack(itemEntity));
+                world.spawnEntity(drop);
+            }
         }
     }
 
