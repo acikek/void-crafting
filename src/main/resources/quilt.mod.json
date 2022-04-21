@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "com.acikek",
+    "id": "voidcrafting",
+    "version": "${version}",
+    "metadata": {
+      "name": "Void Crafting",
+      "description": "Adds a void crafting recipe type",
+      "contributors": {
+        "acikek": "Owner"
+      },
+      "icon": "assets/voidcrafting/icon.png",
+      "license": "MIT"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "init": "com.acikek.voidcrafting.VoidCrafting"
+    },
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "versions": ">=0.16.0-"
+      },
+      {
+        "id": "quilted_fabric_api",
+        "versions": ">=1.0.0-"
+      },
+      {
+        "id": "minecraft",
+        "versions": ">=1.18.2"
+      }
+    ]
+  },
+  "mixin": "voidcrafting.mixins.json"
+}

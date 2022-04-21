@@ -1,19 +1,18 @@
 package com.acikek.voidcrafting.recipe;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
+import org.quiltmc.qsl.recipe.api.serializer.QuiltRecipeSerializer;
 
-public class VoidRecipeSerializer implements RecipeSerializer<VoidRecipe> {
+public class VoidRecipeSerializer implements QuiltRecipeSerializer<VoidRecipe> {
 
     public static final float DEFAULT_RADIUS = 5.0f;
     public static final RegistryKey<World> DEFAULT_WORLD_KEY = World.END;
@@ -47,6 +46,24 @@ public class VoidRecipeSerializer implements RecipeSerializer<VoidRecipe> {
         ItemStack result = !recipeJson.replicate ? ShapedRecipe.outputFromJson(recipeJson.result) : null;
         float radius = recipeJson.radius == 0.0f ? DEFAULT_RADIUS : recipeJson.radius;
         return new VoidRecipe(input, recipeJson.x, recipeJson.z, radius, worldKey, recipeJson.absolute, recipeJson.replicate, result, id);
+    }
+
+    @Override
+    public JsonObject toJson(VoidRecipe recipe) {
+        JsonObject obj = new JsonObject();
+        obj.add("input", recipe.input().toJson());
+        obj.add("x", new JsonPrimitive(recipe.x()));
+        obj.add("z", new JsonPrimitive(recipe.z()));
+        obj.add("radius", new JsonPrimitive(recipe.radius()));
+        obj.add("world", new JsonPrimitive(recipe.worldKey().getValue().toString()));
+        obj.add("absolute", new JsonPrimitive(recipe.absolute()));
+        obj.add("replicate", new JsonPrimitive(recipe.replicate()));
+        if (!recipe.replicate()) {
+            ItemStack.CODEC.encode(recipe.result(), JsonOps.INSTANCE, JsonOps.INSTANCE.empty())
+                    .result()
+                    .ifPresent(jsonElement -> obj.add("result", jsonElement));
+        }
+        return obj;
     }
 
     @Override
