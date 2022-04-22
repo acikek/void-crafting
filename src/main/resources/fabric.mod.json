@@ -18,7 +18,7 @@
       "com.acikek.voidcrafting.VoidCrafting"
     ],
     "rei": [
-      "com.acikek.voidcrafting.compat.rei.VoidCraftingClientPlugin"
+      "com.acikek.voidcrafting.compat.rei.VoidCraftingREIPlugin"
     ]
   },
   "mixins": [
