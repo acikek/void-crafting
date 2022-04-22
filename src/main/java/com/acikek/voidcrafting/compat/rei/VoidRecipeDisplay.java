@@ -14,17 +14,27 @@ public class VoidRecipeDisplay implements Display {
 
     public static final CategoryIdentifier<VoidRecipeDisplay> IDENTIFIER = CategoryIdentifier.of(VoidCrafting.id("voidcrafting"));
 
-    /*public float radius;
-    public float x;
-    public float y;*/
     public List<EntryIngredient> input;
     public List<EntryIngredient> output;
-    public boolean absolute;
+    public float radius;
+    public String offset;
+    public String world;
+
+    public String getCoordinate(float value, boolean absolute) {
+        return (absolute ? "~" : "") + value;
+    }
+
+    public String getOffset(float x, float z, boolean absolute) {
+        return getCoordinate(x, absolute) + ", " + getCoordinate(z, absolute);
+    }
 
     public VoidRecipeDisplay(VoidRecipe recipe) {
-        input = Collections.singletonList(EntryIngredients.ofIngredient(recipe.input())); //CollectionUtils.map(recipe.input().getMatchingStacks(), EntryIngredients::of);
-        output = Collections.singletonList(EntryIngredients.of(recipe.getOutput()));
-        absolute = recipe.absolute();
+        EntryIngredient inputIngredient = EntryIngredients.ofIngredient(recipe.input());
+        input = Collections.singletonList(inputIngredient);
+        output = Collections.singletonList(recipe.replicate() ? inputIngredient : EntryIngredients.of(recipe.getOutput()));
+        radius = recipe.radius();
+        offset = getOffset(recipe.x(), recipe.z(), recipe.absolute());
+        world = recipe.worldKey().getValue().toString();
     }
 
     @Override
