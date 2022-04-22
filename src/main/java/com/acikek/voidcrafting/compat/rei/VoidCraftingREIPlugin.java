@@ -10,7 +10,6 @@ public class VoidCraftingREIPlugin implements REIClientPlugin {
     @Override
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new VoidRecipeCategory());
-        registry.addWorkstations(VoidRecipeDisplay.IDENTIFIER, VoidRecipeCategory.ICON);
     }
 
     @Override

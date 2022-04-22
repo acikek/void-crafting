@@ -1,6 +1,5 @@
 package com.acikek.voidcrafting.compat.rei;
 
-import com.google.common.collect.Lists;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -16,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,7 @@ import java.util.List;
 public class VoidRecipeCategory implements DisplayCategory<VoidRecipeDisplay> {
 
     public static final MutableText TITLE = new TranslatableText("rei.voidcrafting.void_recipe");
-    public static final EntryStack<ItemStack> ICON = EntryStacks.of(Blocks.END_PORTAL);
+    public static final EntryStack<ItemStack> ICON = EntryStacks.of(Blocks.END_PORTAL_FRAME);
 
     public static final int TEXT_LIGHT = 0xFF404040;
     public static final int TEXT_DARK = 0xFFBBBBBB;
