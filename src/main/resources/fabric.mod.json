@@ -16,6 +16,9 @@
   "entrypoints": {
     "main": [
       "com.acikek.voidcrafting.VoidCrafting"
+    ],
+    "rei": [
+      "com.acikek.voidcrafting.compat.rei.VoidCraftingREIPlugin"
     ]
   },
   "mixins": [
