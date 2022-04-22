@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:ender_eye"
+    },
+    "title": {
+      "translate": "Void Crafting"
+    },
+    "description": {
+      "translate": "This is a test advancement!"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/block/end_stone_bricks.png"
+  },
+  "criteria": {
+    "voidcrafting_recipe": {
+      "trigger": "voidcrafting:void_craft_success",
+      "conditions": {
+        "recipe": "vc_test:simple",
+        "count": 5
+      }
+    }
+  },
+  "requirements": [
+    [
+      "voidcrafting_recipe"
+    ]
+  ]
+}
