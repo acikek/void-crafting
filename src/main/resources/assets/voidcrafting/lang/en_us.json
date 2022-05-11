@@ -1,0 +1,6 @@
+{
+  "tooltip.voidcrafting.void_resistance": "Void-Resistant",
+  "rei.voidcrafting.void_recipe": "Void Crafting",
+  "rei.voidcrafting.offset": "Offset: %s, r%d",
+  "rei.voidcrafting.world": "World: %s"
+}
