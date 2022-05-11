@@ -9,11 +9,13 @@ import org.apache.logging.log4j.Logger;
 
 public class VoidCrafting implements ModInitializer {
 
+    public static final String ID = "voidcrafting";
+
     public static Identifier id(String path) {
-        return new Identifier("voidcrafting", path);
+        return new Identifier(ID, path);
     }
 
-    public static Logger LOGGER = LogManager.getLogger("voidcrafting");
+    public static Logger LOGGER = LogManager.getLogger(ID);
 
     @Override
     public void onInitialize() {
