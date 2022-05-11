@@ -2,7 +2,6 @@ package com.acikek.voidcrafting.recipe;
 
 import com.acikek.voidcrafting.VoidCrafting;
 import com.acikek.voidcrafting.advancement.ModCriteria;
-import net.minecraft.block.AirBlock;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
@@ -13,63 +12,16 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
-public record VoidRecipe(Ingredient input, float x, float z, float radius,
-                         RegistryKey<World> worldKey, boolean absolute,
+public record VoidRecipe(Ingredient input, Position position,
                          boolean replicate, ItemStack result, Identifier id) implements Recipe<SimpleInventory> {
 
     public static final Identifier ID = VoidCrafting.id("void_crafting");
 
-    public static Vec2f getPosition(float radius, Random random) {
-        float angle = random.nextFloat(MathHelper.TAU);
-        float cos = MathHelper.cos(angle);
-        float sin = MathHelper.sin(angle);
-        return new Vec2f(radius * cos, radius * -sin);
-    }
-
     public boolean isValid() {
         return replicate || !result.isEmpty();
-    }
-
-    public World getWorld(World world) {
-        if (world.getServer() == null) {
-            return null;
-        }
-        return world.getServer().getWorld(worldKey);
-    }
-
-    public ItemStack getStack(ItemEntity itemEntity) {
-        ItemStack stack = (replicate ? itemEntity.getStack() : result).copy();
-        if (replicate) {
-            stack.setCount(1);
-        }
-        return stack;
-    }
-
-    public boolean isVoid(int y, World world, float posX, float posZ) {
-        return y == 0 && world.getBlockState(new BlockPos(posX, y, posZ)).getBlock() instanceof AirBlock;
-    }
-
-    public void dropItems(ItemEntity itemEntity, World world) {
-        for (int i = 0; i < itemEntity.getStack().getCount(); i++) {
-            Vec2f pos = getPosition(radius, world.random);
-            float posX = pos.x + x + (absolute ? (float) itemEntity.getX() : 0.0f);
-            float posZ = pos.y + z + (absolute ? (float) itemEntity.getZ() : 0.0f);
-            int y = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int) posX, (int) posZ);
-            if (!isVoid(y, world, posX, posZ)) {
-                ItemEntity drop = new ItemEntity(world, posX, y, posZ, getStack(itemEntity));
-                world.spawnEntity(drop);
-            }
-        }
     }
 
     public void triggerCriterion(ItemEntity itemEntity, World world) {
@@ -77,6 +29,15 @@ public record VoidRecipe(Ingredient input, float x, float z, float radius,
             PlayerEntity player = world.getPlayerByUuid(itemEntity.getThrower());
             if (player != null) {
                 ModCriteria.VOID_CRAFT_SUCCESS.trigger((ServerPlayerEntity) player, id, itemEntity.getStack().getCount());
+            }
+        }
+    }
+
+    public void activate(World world, ItemEntity itemEntity) {
+        if (isValid()) {
+            World target = position.dropItems(world, itemEntity, replicate, result, id);
+            if (target != null) {
+                triggerCriterion(itemEntity, target);
             }
         }
     }

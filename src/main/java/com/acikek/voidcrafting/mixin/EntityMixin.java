@@ -1,10 +1,12 @@
 package com.acikek.voidcrafting.mixin;
 
-import com.acikek.voidcrafting.VoidCrafting;
+import com.acikek.voidcrafting.api.VoidCraftingAPI;
+import com.acikek.voidcrafting.recipe.Position;
 import com.acikek.voidcrafting.recipe.VoidRecipe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,19 +26,17 @@ public abstract class EntityMixin {
         if (!world.isClient()) {
             Entity entity = (Entity) (Object) this;
             if (entity instanceof ItemEntity itemEntity) {
-                SimpleInventory inventory = new SimpleInventory(itemEntity.getStack());
-                world.getRecipeManager().getFirstMatch(VoidRecipe.Type.INSTANCE, inventory, world).ifPresent(match -> {
-                    if (match.isValid()) {
-                        World target = match.getWorld(world);
-                        if (target != null) {
-                            match.dropItems(itemEntity, target);
-                            match.triggerCriterion(itemEntity, target);
-                        }
-                        else {
-                            VoidCrafting.LOGGER.error("World '" + match.worldKey().getValue() +  "' not found (recipe: " + match.getId() + ")");
-                        }
-                    }
-                });
+                ItemStack stack = itemEntity.getStack();
+                if (VoidCraftingAPI.isVoidResistant(stack)) {
+                    Position position = VoidCraftingAPI.getVoidResistancePosition(stack);
+                    position.dropItems(world, itemEntity, true, null, null);
+                }
+                else {
+                    SimpleInventory inventory = new SimpleInventory(stack);
+                    world.getRecipeManager()
+                            .getFirstMatch(VoidRecipe.Type.INSTANCE, inventory, world)
+                            .ifPresent(match -> match.activate(world, itemEntity));
+                }
             }
         }
     }
