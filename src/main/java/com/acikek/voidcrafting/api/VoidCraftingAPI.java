@@ -67,11 +67,10 @@ public class VoidCraftingAPI {
      */
     public static void appendVoidResistanceTooltip(ItemStack stack, TooltipContext context, List<Text> lines) {
         if (isVoidResistant(stack)) {
-            int pos = lines.size() <= 1 ? lines.size() - 1 : 1;
-            lines.add(pos, TOOLTIP_LINE.copy().formatted(Formatting.DARK_PURPLE));
+            lines.add(1, TOOLTIP_LINE.copy().formatted(Formatting.DARK_PURPLE));
             if (context.isAdvanced()) {
                 String position = VoidCraftingAPI.getVoidResistancePosition(stack).toString();
-                lines.add(pos + 1, new LiteralText(position).formatted(Formatting.DARK_GRAY));
+                lines.add(2, new LiteralText(position).formatted(Formatting.DARK_GRAY));
             }
         }
     }
