@@ -17,6 +17,9 @@
     "main": [
       "com.acikek.voidcrafting.VoidCrafting"
     ],
+    "client": [
+      "com.acikek.voidcrafting.client.VoidCraftingClient"
+    ],
     "rei": [
       "com.acikek.voidcrafting.compat.rei.VoidCraftingREIPlugin"
     ]
