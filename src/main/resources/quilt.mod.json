@@ -16,7 +16,8 @@
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
       "init": "com.acikek.voidcrafting.VoidCrafting",
-      "client_init": "com.acikek.voidcrafting.client.VoidCraftingClient"
+      "client_init": "com.acikek.voidcrafting.client.VoidCraftingClient",
+      "emi": "com.acikek.voidcrafting.compat.emi.VoidCraftingPlugin"
     },
     "depends": [
       {
