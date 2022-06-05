@@ -1,9 +1,9 @@
 package com.acikek.voidcrafting.compat.emi;
 
 import com.acikek.voidcrafting.recipe.VoidRecipe;
-import dev.emi.emi.EmiRenderHelper;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
@@ -16,6 +16,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class EmiVoidCraftingRecipe implements EmiRecipe {
+
+    public static final EmiTexture VOID_AREA = new EmiTexture(VoidCraftingPlugin.WIDGETS, 0, 0, 54, 54);
+    public static final EmiTexture REPLICATE_ARROW = new EmiTexture(VoidCraftingPlugin.WIDGETS, 54, 0, 24, 17);
 
     public Identifier id;
     public EmiIngredient input;
@@ -83,17 +86,11 @@ public class EmiVoidCraftingRecipe implements EmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         int centerX = widgets.getWidth() / 2;
         int centerY = widgets.getHeight() / 2;
-        widgets.addTexture(VoidCraftingPlugin.WIDGETS, centerX - 9, centerY - 27, 54, 54, 0, 0);
-        widgets.addTexture(
-                replicate ? VoidCraftingPlugin.WIDGETS : EmiRenderHelper.WIDGETS,
-                centerX - 22,
-                centerY - 9,
-                24, 17,
-                replicate ? 54 : 44, 0
-        ).tooltip(() -> tooltip);
+        widgets.addTexture(VOID_AREA, centerX - 9, centerY - 27);
+        widgets.addTexture(replicate ? REPLICATE_ARROW : EmiTexture.EMPTY_ARROW, centerX - 22, centerY - 9).tooltip((x, y) -> tooltip);
         widgets.addSlot(input, 2, centerY - 9);
         if (!replicate) {
-            widgets.addSlot(output, centerX + 17, centerY - 9).output(true).recipeContext(this).drawBack(false);
+            widgets.addSlot(output, centerX + 17, centerY - 9).recipeContext(this).drawBack(false);
         }
     }
 }
