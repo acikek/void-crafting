@@ -4,10 +4,8 @@ import com.acikek.voidcrafting.recipe.Position;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.List;
 public class VoidCraftingAPI {
 
     public static String VOID_RESISTANCE_KEY = "VoidResistance";
-    public static MutableText TOOLTIP_LINE = new TranslatableText("tooltip.voidcrafting.void_resistance");
+    public static MutableText TOOLTIP_LINE = Text.translatable("tooltip.voidcrafting.void_resistance");
 
     private VoidCraftingAPI() {
     }
@@ -70,7 +68,7 @@ public class VoidCraftingAPI {
             lines.add(1, TOOLTIP_LINE.copy().formatted(Formatting.DARK_PURPLE));
             if (context.isAdvanced()) {
                 String position = VoidCraftingAPI.getVoidResistancePosition(stack).toString();
-                lines.add(2, new LiteralText(position).formatted(Formatting.DARK_GRAY));
+                lines.add(2, Text.literal(position).formatted(Formatting.DARK_GRAY));
             }
         }
     }

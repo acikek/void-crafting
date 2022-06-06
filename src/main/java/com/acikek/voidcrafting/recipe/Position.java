@@ -11,12 +11,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public record Position(float x, float z, float radius, RegistryKey<World> worldKey, boolean absolute) {
 
@@ -36,7 +35,7 @@ public record Position(float x, float z, float radius, RegistryKey<World> worldK
     }
 
     public static Vec2f getRandomCoordinates(float radius, Random random) {
-        float angle = random.nextFloat(MathHelper.TAU);
+        float angle = random.nextFloat() * MathHelper.TAU;
         float cos = MathHelper.cos(angle);
         float sin = MathHelper.sin(angle);
         return new Vec2f(radius * cos, radius * -sin);
