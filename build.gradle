@@ -8,7 +8,10 @@ version = project.version
 group = project.maven_group
 
 repositories {
-	mavenLocal()
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
 }
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
@@ -25,7 +28,7 @@ dependencies {
 	// Quilted Fabric API will automatically pull in the correct QSL version.
 	modImplementation libs.quilted.fabric.api
 
-	modImplementation("dev.emi:emi:${project.emi_version}") {
+	modImplementation "dev.emi:emi:${project.emi_version}", {
 		exclude group: "net.fabricmc"
 		exclude group: "net.fabricmc.fabric-api"
 	}
