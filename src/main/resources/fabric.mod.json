@@ -20,8 +20,8 @@
     "client": [
       "com.acikek.voidcrafting.client.VoidCraftingClient"
     ],
-    "rei": [
-      "com.acikek.voidcrafting.compat.rei.VoidCraftingREIPlugin"
+    "emi": [
+      "com.acikek.voidcrafting.compat.emi.VoidCraftingPlugin"
     ]
   },
   "mixins": [
