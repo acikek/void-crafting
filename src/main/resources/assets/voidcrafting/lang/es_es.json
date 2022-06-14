@@ -2,5 +2,8 @@
   "tooltip.voidcrafting.void_resistance": "Resistente al Vacío",
   "emi.category.voidcrafting.void_crafting": "Crafteo del Vacío",
   "emi.voidcrafting.offset": "Offset: %s, r%d",
-  "emi.voidcrafting.world": "Mundo: %s"
+  "emi.voidcrafting.world": "Mundo: %s",
+  "rei.voidcrafting.void_crafting": "Crafteo del Vacío",
+  "rei.voidcrafting.offset": "Offset: %s, r%d",
+  "rei.voidcrafting.world": "Mundo: %s"
 }

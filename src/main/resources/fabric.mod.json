@@ -22,6 +22,9 @@
     ],
     "emi": [
       "com.acikek.voidcrafting.compat.emi.VoidCraftingPlugin"
+    ],
+    "rei": [
+      "com.acikek.voidcrafting.compat.rei.VoidCraftingREIPlugin"
     ]
   },
   "mixins": [
