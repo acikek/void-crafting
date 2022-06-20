@@ -31,6 +31,7 @@ dependencies {
 	modImplementation "dev.emi:emi:${project.emi_version}", {
 		exclude group: "net.fabricmc"
 		exclude group: "net.fabricmc.fabric-api"
+		transitive = false
 	}
 }
 

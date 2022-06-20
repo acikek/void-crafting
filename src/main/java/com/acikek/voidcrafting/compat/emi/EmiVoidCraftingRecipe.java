@@ -8,7 +8,7 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,8 +47,8 @@ public class EmiVoidCraftingRecipe implements EmiRecipe {
         world = recipe.position().worldKey().getValue().toString();
         replicate = recipe.replicate();
         tooltip = List.of(
-                TooltipComponent.of(new TranslatableText("emi.voidcrafting.offset", offset, radius).asOrderedText()),
-                TooltipComponent.of(new TranslatableText("emi.voidcrafting.world", world).asOrderedText())
+                TooltipComponent.of(Text.translatable("emi.voidcrafting.offset", offset, radius).asOrderedText()),
+                TooltipComponent.of(Text.translatable("emi.voidcrafting.world", world).asOrderedText())
         );
     }
 
