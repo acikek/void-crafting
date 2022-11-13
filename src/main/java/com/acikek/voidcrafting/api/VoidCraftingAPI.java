@@ -1,22 +1,45 @@
 package com.acikek.voidcrafting.api;
 
+import com.acikek.voidcrafting.VoidCrafting;
+import com.acikek.voidcrafting.api.event.StackVoided;
 import com.acikek.voidcrafting.recipe.Position;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
 
 @SuppressWarnings("unused")
 public class VoidCraftingAPI {
 
-    public static String VOID_RESISTANCE_KEY = "VoidResistance";
-    public static MutableText TOOLTIP_LINE = Text.translatable("tooltip.voidcrafting.void_resistance");
+    public static final String VOID_RESISTANCE_KEY = "VoidResistance";
+    public static final MutableText TOOLTIP_LINE = Text.translatable("tooltip.voidcrafting.void_resistance");
+
+    public static final Identifier VOID_CRAFTING_PHASE = VoidCrafting.id("main_phase");
+
+    /**
+     * Called when an item entity falls into the void.
+     */
+    public static final Event<StackVoided> STACK_VOIDED = EventFactory.createArrayBacked(StackVoided.class, callbacks -> (world, entity, stack) -> {
+        for (StackVoided callback : callbacks) {
+            callback.onStackVoided(world, entity, stack);
+        }
+    });
 
     private VoidCraftingAPI() {
+    }
+
+    /**
+     * Adds a phase to the {@link VoidCraftingAPI#STACK_VOIDED} event before the main Void Crafting phase.
+     */
+    public static void addStackVoidedPhase(Identifier phase) {
+        STACK_VOIDED.addPhaseOrdering(phase, VOID_CRAFTING_PHASE);
     }
 
     /**

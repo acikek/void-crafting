@@ -27,16 +27,7 @@ public abstract class EntityMixin {
             Entity entity = (Entity) (Object) this;
             if (entity instanceof ItemEntity itemEntity) {
                 ItemStack stack = itemEntity.getStack();
-                if (VoidCraftingAPI.isVoidResistant(stack)) {
-                    Position position = VoidCraftingAPI.getVoidResistancePosition(stack);
-                    position.dropItems(world, itemEntity, true, null, null);
-                }
-                else {
-                    SimpleInventory inventory = new SimpleInventory(stack);
-                    world.getRecipeManager()
-                            .getFirstMatch(VoidRecipe.Type.INSTANCE, inventory, world)
-                            .ifPresent(match -> match.activate(world, itemEntity));
-                }
+                VoidCraftingAPI.STACK_VOIDED.invoker().onStackVoided(world, itemEntity, stack);
             }
         }
     }
