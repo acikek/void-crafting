@@ -24,20 +24,15 @@ public record VoidRecipe(Ingredient input, Position position,
         return replicate || !result.isEmpty();
     }
 
-    public void triggerCriterion(ItemEntity itemEntity, World world) {
-        if (itemEntity.getThrower() != null) {
-            PlayerEntity player = world.getPlayerByUuid(itemEntity.getThrower());
-            if (player != null) {
-                ModCriteria.VOID_CRAFT_SUCCESS.trigger((ServerPlayerEntity) player, id, itemEntity.getStack().getCount());
-            }
-        }
+    public void triggerCriterion(ItemEntity itemEntity, ServerPlayerEntity thrower) {
+        ModCriteria.VOID_CRAFT_SUCCESS.trigger(thrower, id, itemEntity.getStack().getCount());
     }
 
-    public void activate(World world, ItemEntity itemEntity) {
+    public void activate(World world, ItemEntity itemEntity, PlayerEntity thrower) {
         if (isValid()) {
             World target = position.dropItems(world, itemEntity, replicate, result, id);
-            if (target != null) {
-                triggerCriterion(itemEntity, target);
+            if (target != null && thrower instanceof ServerPlayerEntity serverPlayer) {
+                triggerCriterion(itemEntity, serverPlayer);
             }
         }
     }

@@ -33,7 +33,7 @@ public class VoidCrafting implements ModInitializer {
     }
 
     public static void registerEvent() {
-        VoidCraftingAPI.STACK_VOIDED.register(VoidCraftingAPI.VOID_CRAFTING_PHASE, (world, entity, stack) -> {
+        VoidCraftingAPI.STACK_VOIDED.register(VoidCraftingAPI.VOID_CRAFTING_PHASE, (world, entity, stack, thrower) -> {
             if (VoidCraftingAPI.isVoidResistant(stack)) {
                 Position position = VoidCraftingAPI.getVoidResistancePosition(stack);
                 position.dropItems(world, entity, true, null, null);
@@ -42,7 +42,7 @@ public class VoidCrafting implements ModInitializer {
             SimpleInventory inventory = new SimpleInventory(stack);
             world.getRecipeManager()
                     .getFirstMatch(VoidRecipe.Type.INSTANCE, inventory, world)
-                    .ifPresent(match -> match.activate(world, entity));
+                    .ifPresent(match -> match.activate(world, entity, thrower));
         });
     }
 }

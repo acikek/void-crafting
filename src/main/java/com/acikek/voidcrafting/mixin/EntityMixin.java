@@ -5,6 +5,7 @@ import com.acikek.voidcrafting.recipe.Position;
 import com.acikek.voidcrafting.recipe.VoidRecipe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -27,7 +28,10 @@ public abstract class EntityMixin {
             Entity entity = (Entity) (Object) this;
             if (entity instanceof ItemEntity itemEntity) {
                 ItemStack stack = itemEntity.getStack();
-                VoidCraftingAPI.STACK_VOIDED.invoker().onStackVoided(world, itemEntity, stack);
+                PlayerEntity thrower = itemEntity.getThrower() != null
+                        ? world.getPlayerByUuid(itemEntity.getThrower())
+                        : null;
+                VoidCraftingAPI.STACK_VOIDED.invoker().onStackVoided(world, itemEntity, stack, thrower);
             }
         }
     }

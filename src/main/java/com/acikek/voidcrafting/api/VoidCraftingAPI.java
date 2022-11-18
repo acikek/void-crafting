@@ -26,9 +26,9 @@ public class VoidCraftingAPI {
     /**
      * Called when an item entity falls into the void.
      */
-    public static final Event<StackVoided> STACK_VOIDED = EventFactory.createArrayBacked(StackVoided.class, callbacks -> (world, entity, stack) -> {
+    public static final Event<StackVoided> STACK_VOIDED = EventFactory.createArrayBacked(StackVoided.class, callbacks -> (world, entity, stack, thrower) -> {
         for (StackVoided callback : callbacks) {
-            callback.onStackVoided(world, entity, stack);
+            callback.onStackVoided(world, entity, stack, thrower);
         }
     });
 
