@@ -1,7 +1,7 @@
 package com.acikek.voidcrafting.recipe;
 
+import com.acikek.datacriteria.api.DataCriteriaAPI;
 import com.acikek.voidcrafting.VoidCrafting;
-import com.acikek.voidcrafting.advancement.ModCriteria;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
@@ -10,9 +10,10 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public record VoidRecipe(Ingredient input, Position position,
@@ -25,7 +26,7 @@ public record VoidRecipe(Ingredient input, Position position,
     }
 
     public void triggerCriterion(ItemEntity itemEntity, ServerPlayerEntity thrower) {
-        ModCriteria.VOID_CRAFT_SUCCESS.trigger(thrower, id, itemEntity.getStack().getCount());
+        DataCriteriaAPI.trigger(VoidCrafting.id("void_craft_success"),true, thrower, id, itemEntity.getStack().getCount());
     }
 
     public void activate(World world, ItemEntity itemEntity, PlayerEntity thrower) {
@@ -77,7 +78,7 @@ public record VoidRecipe(Ingredient input, Position position,
     }
 
     public static void register() {
-        Registry.register(Registry.RECIPE_TYPE, ID, Type.INSTANCE);
-        Registry.register(Registry.RECIPE_SERIALIZER, ID, VoidRecipeSerializer.INSTANCE);
+        Registry.register(Registries.RECIPE_TYPE, ID, Type.INSTANCE);
+        Registry.register(Registries.RECIPE_SERIALIZER, ID, VoidRecipeSerializer.INSTANCE);
     }
 }

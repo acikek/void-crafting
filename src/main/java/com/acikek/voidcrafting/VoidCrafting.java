@@ -1,6 +1,5 @@
 package com.acikek.voidcrafting;
 
-import com.acikek.voidcrafting.advancement.ModCriteria;
 import com.acikek.voidcrafting.api.VoidCraftingAPI;
 import com.acikek.voidcrafting.recipe.Position;
 import com.acikek.voidcrafting.recipe.VoidRecipe;
@@ -27,7 +26,6 @@ public class VoidCrafting implements ModInitializer {
         if (FabricLoader.getInstance().isModLoaded("roughlyenoughitems")) {
             LOGGER.warn("Void Crafting support on REI is limited; use EMI for better integration! https://modrinth.com/mod/emi");
         }
-        ModCriteria.register();
         VoidRecipe.register();
         registerEvent();
     }

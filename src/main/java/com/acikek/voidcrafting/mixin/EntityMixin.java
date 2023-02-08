@@ -1,12 +1,9 @@
 package com.acikek.voidcrafting.mixin;
 
 import com.acikek.voidcrafting.api.VoidCraftingAPI;
-import com.acikek.voidcrafting.recipe.Position;
-import com.acikek.voidcrafting.recipe.VoidRecipe;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;

@@ -7,13 +7,13 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 
@@ -23,7 +23,7 @@ public record Position(float x, float z, float radius, RegistryKey<World> worldK
     public static final RegistryKey<World> DEFAULT_WORLD_KEY = World.END;
 
     public static RegistryKey<World> getKeyFromString(String world) {
-        return RegistryKey.of(Registry.WORLD_KEY, Identifier.tryParse(world));
+        return RegistryKey.of(RegistryKeys.WORLD, Identifier.tryParse(world));
     }
 
     public ItemStack getStack(ItemEntity itemEntity, boolean replicate, ItemStack result) {

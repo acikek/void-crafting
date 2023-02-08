@@ -20,7 +20,9 @@
       "trigger": "voidcrafting:void_craft_success",
       "conditions": {
         "recipe": "vc_test:simple",
-        "count": 5
+        "count": {
+          "min": 5
+        }
       }
     }
   },

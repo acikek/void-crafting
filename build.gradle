@@ -13,6 +13,14 @@ repositories {
     }
 
     maven { url "https://maven.shedaniel.me" }
+
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 dependencies {
@@ -31,6 +39,9 @@ dependencies {
 
     // REI
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
+
+    // Data Criteria
+    modImplementation include("maven.modrinth:data-criteria:${project.datacriteria_version}")
 }
 
 processResources {

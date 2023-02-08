@@ -1,7 +1,7 @@
 package com.acikek.voidcrafting.api;
 
 import com.acikek.voidcrafting.recipe.Position;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.World;
 
 public class PositionBuilder {
