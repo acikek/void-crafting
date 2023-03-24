@@ -10,6 +10,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -44,7 +45,7 @@ public record VoidRecipe(Ingredient input, Position position,
     }
 
     @Override
-    public ItemStack craft(SimpleInventory inventory) {
+    public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager manager) {
         return null;
     }
 
@@ -54,7 +55,7 @@ public record VoidRecipe(Ingredient input, Position position,
     }
 
     @Override
-    public ItemStack getOutput() {
+    public ItemStack getOutput(DynamicRegistryManager manager) {
         return result;
     }
 

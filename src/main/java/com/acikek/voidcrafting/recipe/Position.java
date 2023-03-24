@@ -42,7 +42,7 @@ public record Position(float x, float z, float radius, RegistryKey<World> worldK
     }
 
     public boolean isVoid(int y, World world, float posX, float posZ) {
-        return y == 0 && world.getBlockState(new BlockPos(posX, y, posZ)).getBlock() instanceof AirBlock;
+        return y == 0 && world.getBlockState(BlockPos.ofFloored(posX, y, posZ)).getBlock() instanceof AirBlock;
     }
 
     public World getWorld(World world) {

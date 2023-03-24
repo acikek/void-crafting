@@ -42,7 +42,7 @@ public class EmiVoidCraftingRecipe implements EmiRecipe {
     public EmiVoidCraftingRecipe(VoidRecipe recipe) {
         id = recipe.id();
         input = EmiIngredient.of(recipe.input());
-        output = recipe.getOutput() != null ? EmiStack.of(recipe.getOutput()) : null;
+        output = recipe.getOutput(null) != null ? EmiStack.of(recipe.getOutput(null)) : null;
         radius = recipe.position().radius();
         offset = getOffset(recipe.position().x(), recipe.position().z(), recipe.position().absolute());
         world = recipe.position().worldKey().getValue().toString();

@@ -32,7 +32,7 @@ public class VoidRecipeDisplay implements Display {
     public VoidRecipeDisplay(VoidRecipe recipe) {
         EntryIngredient inputIngredient = EntryIngredients.ofIngredient(recipe.input());
         input = Collections.singletonList(inputIngredient);
-        output = Collections.singletonList(recipe.replicate() ? inputIngredient : EntryIngredients.of(recipe.getOutput()));
+        output = Collections.singletonList(recipe.replicate() ? inputIngredient : EntryIngredients.of(recipe.getOutput(null)));
         radius = recipe.position().radius();
         offset = getOffset(recipe.position().x(), recipe.position().z(), recipe.position().absolute());
         world = recipe.position().worldKey().getValue().toString();

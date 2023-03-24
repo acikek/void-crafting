@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.UUID;
+
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
@@ -25,8 +27,9 @@ public abstract class EntityMixin {
             Entity entity = (Entity) (Object) this;
             if (entity instanceof ItemEntity itemEntity) {
                 ItemStack stack = itemEntity.getStack();
-                PlayerEntity thrower = itemEntity.getThrower() != null
-                        ? world.getPlayerByUuid(itemEntity.getThrower())
+                UUID throwerUuid = ((ItemEntityAccessor) itemEntity).getThrower();
+                PlayerEntity thrower = throwerUuid != null
+                        ? world.getPlayerByUuid(throwerUuid)
                         : null;
                 VoidCraftingAPI.STACK_VOIDED.invoker().onStackVoided(world, itemEntity, stack, thrower);
             }
